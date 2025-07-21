@@ -39,34 +39,39 @@ rank_df = rank_df.set_index('이름')
 st.line_chart(rank_df)  # 학생별 과목 석차 꺾은선 그래프
 
 # 4. 과목별 평균, 분산, 사분위수, boxplot
+import os
+import matplotlib.pyplot as plt
+from matplotlib import font_manager
+
+# 상대 경로 기반 폰트 설정
+font_path = os.path.join("fonts", "NanumGothic-Regular.ttf")
+fontprop = font_manager.FontProperties(fname=font_path)
+plt.rcParams['axes.unicode_minus'] = False  # 마이너스 깨짐 방지
+
 for subject in ['수학', '영어', '과학']:
     st.subheader(f'{subject} 성적 통계')
+
     mean = df[subject].mean()
     var = df[subject].var()
     q1 = df[subject].quantile(0.25)
     q2 = df[subject].quantile(0.5)
     q3 = df[subject].quantile(0.75)
+
     st.write(f"평균: {mean:.2f}")
     st.write(f"분산: {var:.2f}")
     st.write(f"1사분위수(Q1): {q1:.2f}")
     st.write(f"2사분위수(중앙값, Q2): {q2:.2f}")
     st.write(f"3사분위수(Q3): {q3:.2f}")
-    # boxplot 시각화 (한글 폰트 적용)
-    import matplotlib.pyplot as plt
-    from matplotlib import font_manager
-    font_path = "/workspaces/blankapp250721/fonts/NanumGothic-Regular.ttf"
-    fontprop = font_manager.FontProperties(fname=font_path)
-    plt.rcParams['axes.unicode_minus'] = False  # 마이너스 깨짐 방지
 
     fig, ax = plt.subplots()
     ax.boxplot(df[subject], labels=[subject])
     ax.set_title(f'{subject} 성적 Boxplot', fontproperties=fontprop)
     ax.set_ylabel('점수', fontproperties=fontprop)
-    # x축, y축 눈금에도 폰트 적용
+
     for label in ax.get_xticklabels():
         label.set_fontproperties(fontprop)
     for label in ax.get_yticklabels():
         label.set_fontproperties(fontprop)
+
     st.pyplot(fig)
     st.divider()
-# ...existing code...
