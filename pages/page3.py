@@ -39,7 +39,6 @@ rank_df = rank_df.set_index('이름')
 st.line_chart(rank_df)  # 학생별 과목 석차 꺾은선 그래프
 
 # 4. 과목별 평균, 분산, 사분위수, boxplot
-# ...existing code...
 for subject in ['수학', '영어', '과학']:
     st.subheader(f'{subject} 성적 통계')
     mean = df[subject].mean()
@@ -57,7 +56,6 @@ for subject in ['수학', '영어', '과학']:
     from matplotlib import font_manager
     font_path = "/workspaces/blankapp250721/fonts/NanumGothic-Regular.ttf"
     fontprop = font_manager.FontProperties(fname=font_path)
-    plt.rcParams['font.family'] = font_manager.FontProperties(fname=font_path).get_name()
     plt.rcParams['axes.unicode_minus'] = False  # 마이너스 깨짐 방지
 
     fig, ax = plt.subplots()
